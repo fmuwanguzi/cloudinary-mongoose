@@ -17,6 +17,8 @@ app.get('/', (req, res) =>{
     res.send('Hello from your image api')
 })
 
+app.use('/image', require('./controllers/imageController'))
+
 
 //set up your PORT
 const PORT = process.env.PORT || 3000
