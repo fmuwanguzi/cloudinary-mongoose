@@ -89,5 +89,54 @@ router.delete('/:name' , async (req, res) => {
     }
 });
 
+
+//PUT route for changing the image using id
+router.put('/:id', upload.single('image'), async (req, res ) => {
+    try {
+        let image = await Image.findById(req.params.id);
+        //Delete the image from cloudinary
+        await cloudinary.uploader.destroy(image.cloudinary_id);
+        //upload new image to cloudinary
+        const myImage = await cloudinary.uploader.upload(req.file.path);
+        const data = {
+            name: req.body.name || image.name,
+            picture: myImage.secure_url || image.picture,
+            cloudinary_id: myImage.public_id || image.cloudinary_id, 
+        }
+        image = await Image.findByIdAndUpdate(req.params.id, data, {
+            new:true
+        });
+        res.json(image);
+
+    }catch(error){
+        console.log(error)
+    }
+})
+
+//PUT route for changing image using name
+
+// router.put('/:name', upload.single('image'), async (req, res ) => {
+//     try {
+//         let image = await Image.findOne(req.body.name)
+//         //Delete the image from cloudinary
+//         await cloudinary.uploader.destroy(image.cloudinary_id);
+//         //upload new image to cloudinary
+//         const myImage = await cloudinary.uploader.upload(req.file.path);
+//         const data = {
+//             name: req.body.name || image.name,
+//             picture: myImage.secure_url || image.picture,
+//             cloudinary_id: myImage.public_id || image.cloudinary_id, 
+//         }
+//         image = await Image.findOneAndUpdate(req.body.name, data, {
+//             new:true
+//         });
+//         res.json(image);
+
+//     }catch(error){
+//         console.log(error)
+//     }
+// })
+
+
 module.exports = router; 
 
