@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const imageSchema = new mongoose.Schema({
     name:String,
-    description: String,
+    picture: String,
     cloudinary_id: String
 })
 
