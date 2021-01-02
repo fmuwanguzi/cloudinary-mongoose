@@ -37,22 +37,48 @@ router.get('/', async (req, res) => {
     }
 });
 
-//get each image by id
-router.get('/:id', async (req, res) => {
+//get each image by id this route works
+// router.get('/:id', async (req, res) => {
+//     try {
+//         const image = await Image.findById(req.params.id)
+//         res.json(image);
+//     }catch(error){
+//         console.log(error);
+//     }
+// });
+
+
+//Get each image by name
+router.get('/:name', async (req, res) => {
     try {
-        const image = await Image.findById(req.params.id)
+        const image = await Image.findOne(req.body.name)
         res.json(image);
     }catch(error){
         console.log(error);
     }
 });
 
-//Delete route
+//Delete route by id this route works
 
-router.delete('/:id' , async (req, res) => {
+// router.delete('/:id' , async (req, res) => {
+//     try {
+//         //Find image by the ID
+//         const image = await Image.findById(req.params.id);
+//         //Deleting the image from cloudinary
+//         await cloudinary.uploader.destroy(image.cloudinary_id);
+//         //Delete the image from the database
+//         await image.remove();
+//         res.json(image);
+//     } catch (error){
+//         console.log(error);
+//     }
+// });
+
+//delete image by name
+router.delete('/:name' , async (req, res) => {
     try {
         //Find image by the ID
-        const image = await Image.findById(req.params.id);
+        const image = await Image.findOne(req.body.name)
         //Deleting the image from cloudinary
         await cloudinary.uploader.destroy(image.cloudinary_id);
         //Delete the image from the database
